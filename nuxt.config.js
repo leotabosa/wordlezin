@@ -1,10 +1,9 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
-  target: 'static',
   head: {
-    title: 'wordlezin',
+    title: 'Wordlezin',
     htmlAttrs: {
-      lang: 'en',
+      lang: 'pt-br',
     },
     meta: [
       { charset: 'utf-8' },
