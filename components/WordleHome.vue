@@ -120,7 +120,7 @@ body {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   background-color: #342e37;
 }
 </style>
