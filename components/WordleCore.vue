@@ -38,7 +38,7 @@ export default class WordleCore extends Vue {
   public wrong(_letter: string) {}
 
   @Emit()
-  public endGame(_tries: Array<Try> = this.tries) {}
+  public endGame(_tries: Array<Try>) {}
 
   @Emit()
   public noValidWord() {}
@@ -122,7 +122,7 @@ export default class WordleCore extends Vue {
     this.clearCurrentTry()
 
     if (!this.isCorrect) this.remainingChances--
-    else this.endGame()
+    else this.endGame(this.tries)
   }
 }
 </script>

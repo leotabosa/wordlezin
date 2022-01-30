@@ -1,30 +1,30 @@
 export const state = () => ({
-  error: {},
+  toast: {},
 })
 
 export const getters = {
-  error: (state) => state.error,
+  toast: (state) => state.toast,
 }
 
 export const actions = {
-  addNewError({ commit }, message) {
-    commit('REMOVE_ERROR')
-    commit('ADD_NEW_ERROR', message)
+  addNewToast({ commit }, toast) {
+    commit('REMOVE_TOAST')
+    commit('ADD_NEW_TOAST', toast)
 
     setTimeout(() => {
-      commit('REMOVE_ERROR')
+      commit('REMOVE_TOAST')
     }, 5000)
   },
-  removeError({ commit }) {
-    commit('REMOVE_ERROR')
+  removeToast({ commit }) {
+    commit('REMOVE_TOAST')
   },
 }
 
 export const mutations = {
-  ADD_NEW_ERROR(state, message) {
-    state.error = { message }
+  ADD_NEW_TOAST(state, toast) {
+    state.toast = toast
   },
-  REMOVE_ERROR(state) {
-    state.error = {}
+  REMOVE_TOAST(state) {
+    state.toast = {}
   },
 }

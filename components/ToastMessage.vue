@@ -2,45 +2,46 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  name: 'ErrorMessage',
+  name: 'ToastMessage',
   computed: {
-    ...mapGetters(['error']),
+    ...mapGetters(['toast']),
   },
   methods: {
-    ...mapActions(['removeError']),
+    ...mapActions(['removeToast']),
   },
 }
 </script>
 
 <template>
   <transition
-    name="error-message"
-    enter-class="error-enter"
-    leave-active-class="error-leave-active"
+    name="toast-message"
+    enter-class="toast-enter"
+    leave-active-class="toast-leave-active"
   >
     <div
-      v-if="Object.keys(error).length"
-      :key="'error-message'"
-      class="error-message"
+      v-if="Object.keys(toast).length"
+      :key="'toast-message'"
+      class="toast-message"
+      :class="{ 'toast-message--success': toast.type === 'success' }"
     >
-      <div class="error-message__text">
-        {{ error.message }}
+      <div class="toast-message__text">
+        {{ toast.message }}
       </div>
 
-      <div class="error-message__close-icon" @click="removeError">X</div>
+      <div class="toast-message__close-icon" @click="removeToast">X</div>
     </div>
   </transition>
 </template>
 
 <style lang="scss" scoped>
-.error-enter {
+.toast-enter {
   opacity: 0;
 }
-.error-leave-active {
+.toast-leave-active {
   opacity: 0;
 }
 
-.error-message {
+.toast-message {
   display: flex;
   position: absolute;
   width: auto;
@@ -67,6 +68,11 @@ export default {
     flex: 1;
     width: 24px;
     height: 24px;
+  }
+
+  &--success {
+    background-color: #b9f6ca;
+    color: #007e33;
   }
 }
 </style>

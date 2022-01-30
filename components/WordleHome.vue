@@ -4,20 +4,21 @@ import { Component, Vue } from 'vue-property-decorator'
 import WordleKeyboard from './WordleKeyboard.vue'
 import WordleCore from './WordleCore.vue'
 import WordleHeader from './WordleHeader.vue'
-import ErrorMessage from './ErrorMessage.vue'
+import ToastMessage from './ToastMessage.vue'
 
 @Component({
   components: {
     WordleKeyboard,
     WordleCore,
     WordleHeader,
-    ErrorMessage,
+    ToastMessage,
   },
   methods: {
-    ...mapActions(['addNewError']),
+    ...mapActions(['addNewToast']),
   },
 })
 export default class WordleHome extends Vue {
+  [x: string]: any
   private word: Array<string> = []
   private editorIndex: number = 0
   private correctLetters: Array<string> = []
@@ -85,7 +86,17 @@ export default class WordleHome extends Vue {
     if (!listRef.includes(letter)) listRef.push(letter)
   }
 
-  private finishGame() {
+  private finishGame(tries: any) {
+    const messages: Array<string> = [
+      'Excelente!',
+      'Ótimo!',
+      'Bom!',
+      'Parabéns!',
+      'Boa!',
+      'Ufa!',
+    ]
+
+    this.addNewToast({ type: 'success', message: messages[tries.length - 1] })
     this.showResult = true
   }
 }
@@ -94,7 +105,7 @@ export default class WordleHome extends Vue {
 <template>
   <main class="wordle-home">
     <WordleHeader />
-    <ErrorMessage />
+    <ToastMessage />
     <WordleCore
       ref="core"
       :word="word"
@@ -105,8 +116,12 @@ export default class WordleHome extends Vue {
       @wrong-position="addToListOfLetters($event, 'wrongPositionLetters')"
       @wrong="addToListOfLetters($event, 'wrongLetters')"
       @end-game="finishGame"
-      @no-valid-word="addNewError('A palavra não é válida.')"
-      @not-enough-chars="addNewError('Digite 5 letras.')"
+      @no-valid-word="
+        addNewToast({ type: 'error', message: 'A palavra não é válida.' })
+      "
+      @not-enough-chars="
+        addNewToast({ type: 'error', message: 'Digite 5 letras.' })
+      "
     />
     <WordleKeyboard
       :correct-letters="correctLetters"
