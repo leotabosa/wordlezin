@@ -69,11 +69,11 @@ export default class WordleKeyboard extends Vue {
 
   &__enter-key {
     font-size: min(3.6em, calc(var(--kbd-height) / 7));
-    grid-column: 25 / span 8;
+    grid-column: 25 / span 8 !important;
   }
 
   &__backspace-key {
-    grid-area: 2 / 30 / 2 / 33;
+    grid-area: 2 / 30 / 2 / 33 !important;
   }
 }
 </style>
