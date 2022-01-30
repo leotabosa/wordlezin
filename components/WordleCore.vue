@@ -133,7 +133,7 @@ export default class WordleCore extends Vue {
         </div>
       </template>
 
-      <template v-if="!isCorrect">
+      <template v-if="!isCorrect && remainingChances > -1">
         <div
           v-for="tryPosition in 5"
           :key="`current-try-${tryPosition}`"
@@ -145,12 +145,14 @@ export default class WordleCore extends Vue {
         </div>
       </template>
 
-      <template v-for="(chances, cIndex) in remainingChances">
-        <div
-          v-for="tryPosition in 5"
-          :key="`blocked-${tryPosition}-${cIndex}`"
-          class="result__board-letter result__board-letter--blocked"
-        />
+      <template v-if="remainingChances > -1">
+        <template v-for="(chances, cIndex) in remainingChances">
+          <div
+            v-for="tryPosition in 5"
+            :key="`blocked-${tryPosition}-${cIndex}`"
+            class="result__board-letter result__board-letter--blocked"
+          />
+        </template>
       </template>
     </div>
   </section>
