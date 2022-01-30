@@ -20,6 +20,10 @@ export default class WordleHome extends Vue {
   private wrongLetters: Array<string> = []
   private showResult: boolean = false
 
+  $refs!: {
+    core: WordleCore
+  }
+
   mounted() {
     this.registerEventListeners()
   }
@@ -68,11 +72,12 @@ export default class WordleHome extends Vue {
   }
 
   private checkResult(): void {
-    this.$refs.result.checkResult()
+    this.$refs.core?.checkResult()
   }
 
   private addToListOfLetters(letter: string, list: string) {
-    if (!this[list].includes(letter)) this[list].push(letter)
+    const listRef = (this as any)[list]
+    if (!listRef.includes(letter)) listRef.push(letter)
   }
 
   private finishGame() {
@@ -85,7 +90,7 @@ export default class WordleHome extends Vue {
   <main class="wordle-home">
     <WordleHeader />
     <WordleCore
-      ref="result"
+      ref="core"
       :word="word"
       @go-to-index="editorIndex = $event"
       @clear-current-try="word = []"
