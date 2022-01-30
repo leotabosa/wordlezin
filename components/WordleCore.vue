@@ -66,7 +66,12 @@ export default class WordleCore extends Vue {
 
   public checkResult(): void {
     if (this.word.length !== 5) return
-    const splitSolution = this.solution.toUpperCase().split('')
+    const normalizedSolution = this.solution
+      .normalize('NFD')
+      .replace(/\p{Diacritic}/gu, '')
+    const splitSolution: Array<string> = normalizedSolution
+      .toUpperCase()
+      .split('')
 
     const currentTry: Try = {
       word: this.word,
@@ -74,7 +79,7 @@ export default class WordleCore extends Vue {
       hitsByLetter: {},
     }
 
-    const { occurrenceByLetterOnSolution, hitsByLetterOnTry } =
+    const { occurrenceByLetterOnSolution, hitsByLetterOnTry }: any =
       this.getOccurrencesForEachLetter(splitSolution)
 
     this.word.forEach((letter, index) => {

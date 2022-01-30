@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxt --max_old_space_size=8192 --optimize_for_size",
+    "dev": "nuxt --optimize_for_size",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
