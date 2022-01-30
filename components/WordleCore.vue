@@ -1,6 +1,6 @@
 <script lang="ts">
 import { Component, Vue, Prop, Emit } from 'vue-property-decorator'
-import { getWordOfTheDay } from '../utils/words'
+import { getWordOfTheDay, isValidWord } from '../utils/words'
 
 interface Try {
   word: Array<string>
@@ -66,6 +66,8 @@ export default class WordleCore extends Vue {
 
   public checkResult(): void {
     if (this.word.length !== 5) return
+    if (!isValidWord(this.word.join(''))) return
+
     const normalizedSolution = this.solution
       .normalize('NFD')
       .replace(/\p{Diacritic}/gu, '')
