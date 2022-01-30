@@ -186,12 +186,12 @@ export default class WordleCore extends Vue {
       background-color: #4c4347;
     }
 
-    &--correct {
-      background-color: #3aa394;
-    }
-
     &--wrong-position {
       background-color: #d3ad69;
+    }
+
+    &--correct {
+      background-color: #3aa394;
     }
 
     &--wrong {
