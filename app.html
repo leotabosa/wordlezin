@@ -2,8 +2,47 @@
 <html {{ HTML_ATTRS }}>
   <head {{ HEAD_ATTRS }}>
     {{ HEAD }}
+    <style>
+      :root {
+        --max-size: 720px;
+        --kbd-height: min(100em/2.15, 25vh);
+        --board-width: min(
+          80em,
+          (100vh - var(--kbd-height) - 12vh - 10vh) * 5 / 6
+        );
+        --letter-size: calc(var(--board-width) / 5.5);
+        --letter-font: calc(var(--letter-size) / 1.75);
+        --letter-gap: calc(var(--letter-size) / 8);
+      }
+
+      * {
+        box-sizing: border-box;
+        outline: none;
+        touch-action: manipulation;
+        font-family: inherit;
+        user-select: none;
+      }
+
+      body {
+        max-width: var(--max-size);
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      html {
+        font-size: min(var(--max-size) / 100, 100vw/100);
+        font-family: 'Roboto Mono', monospace;
+        background-color: #342e37;
+      }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;500&display=swap"
+      rel="stylesheet"
+    />
   </head>
-  <body {{ BODY_ATTRS }} style="margin: 0">
+  <body {{ BODY_ATTRS }}>
     {{ APP }}
   </body>
 </html>
