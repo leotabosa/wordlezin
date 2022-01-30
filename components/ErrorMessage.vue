@@ -4,7 +4,7 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'ErrorMessage',
   computed: {
-    ...mapGetters(['errors']),
+    ...mapGetters(['error']),
   },
   methods: {
     ...mapActions(['removeError']),
@@ -13,26 +13,23 @@ export default {
 </script>
 
 <template>
-  <transition-group
-    tag="div"
+  <transition
     name="error-message"
     enter-class="error-enter"
     leave-active-class="error-leave-active"
   >
     <div
-      v-for="(error, index) of errors"
-      :key="`${index}-${error.id}`"
+      v-if="Object.keys(error).length"
+      :key="'error-message'"
       class="error-message"
     >
       <div class="error-message__text">
         {{ error.message }}
       </div>
 
-      <div class="error-message__close-icon" @click="removeError(error.id)">
-        X
-      </div>
+      <div class="error-message__close-icon" @click="removeError">X</div>
     </div>
-  </transition-group>
+  </transition>
 </template>
 
 <style lang="scss" scoped>

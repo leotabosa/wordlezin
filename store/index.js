@@ -1,37 +1,30 @@
 export const state = () => ({
-  errors: [],
+  error: {},
 })
 
 export const getters = {
-  errors: (state) => state.errors,
+  error: (state) => state.error,
 }
 
 export const actions = {
   addNewError({ commit }, message) {
+    commit('REMOVE_ERROR')
     commit('ADD_NEW_ERROR', message)
 
     setTimeout(() => {
       commit('REMOVE_ERROR')
     }, 5000)
   },
-  removeError({ commit }, errorId) {
-    commit('REMOVE_ERROR', errorId)
+  removeError({ commit }) {
+    commit('REMOVE_ERROR')
   },
 }
 
 export const mutations = {
   ADD_NEW_ERROR(state, message) {
-    state.errors.push({ message, id: generateUniqueId() })
+    state.error = { message }
   },
-  REMOVE_ERROR(state, errorId) {
-    if (errorId) {
-      const index = state.errors.findIndex(({ id }) => id === errorId)
-      if (~index) state.errors.splice(index, 1)
-    } else state.errors.shift()
+  REMOVE_ERROR(state) {
+    state.error = {}
   },
-}
-
-function generateUniqueId() {
-  const randomNumber = Math.floor(Math.random() * 100000)
-  return Math.floor(randomNumber * Date.now())
 }
