@@ -55,7 +55,9 @@ export default class KeyboardKey extends Vue {
       'keyboard-key__a': content === 'A',
       'keyboard-key__z': content === 'Z',
       'keyboard-key__correct': correctLetters.includes(content),
-      'keyboard-key__wrong-position': wrongPositionLetters.includes(content),
+      'keyboard-key__wrong-position':
+        wrongPositionLetters.includes(content) &&
+        !correctLetters.includes(letter),
       'keyboard-key__wrong': wrongLetters.includes(content),
     }"
     @click="emitEvent(content)"
