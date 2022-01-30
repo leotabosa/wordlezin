@@ -152,7 +152,7 @@ export default class WordleCore extends Vue {
 
 <style scoped lang="scss">
 .result {
-  width: var(--board-width);
+  width: var(--result-board-width);
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -160,10 +160,10 @@ export default class WordleCore extends Vue {
 
   &__board {
     display: grid;
-    gap: var(--letter-gap) var(--letter-gap);
+    gap: var(--char-gap) var(--char-gap);
     grid-template-columns: repeat(5, 1fr);
     color: white;
-    font-size: var(--letter-font) / 0.1;
+    font-size: var(--char-font) / 0.1;
   }
 
   &__board-letter {
@@ -173,7 +173,7 @@ export default class WordleCore extends Vue {
     aspect-ratio: 1;
     background-color: #615458;
     border-radius: 4px;
-    font-size: var(--letter-font);
+    font-size: var(--char-font);
     text-transform: uppercase;
     border: 0.125em solid #4c4347;
     transition: all 0.1s ease;

@@ -72,7 +72,7 @@ export default class KeyboardKey extends Vue {
   justify-content: center;
   color: white;
   background-color: #6e5c62;
-  font-size: min(4em, calc(var(--kbd-height) / 10));
+  font-size: min(4em, calc(var(--keyboard-height) / 10));
   border-radius: 4px;
   appearance: button;
   grid-column: span 3;

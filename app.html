@@ -5,14 +5,14 @@
     <style>
       :root {
         --max-size: 720px;
-        --kbd-height: min(100em/2.15, 25vh);
-        --board-width: min(
+        --keyboard-height: min(100em/2.15, 25vh);
+        --result-board-width: min(
           80em,
-          (100vh - var(--kbd-height) - 12vh - 10vh) * 5 / 6
+          (100vh - var(--keyboard-height) - 12vh - 10vh) * 5 / 6
         );
-        --letter-size: calc(var(--board-width) / 5.5);
-        --letter-font: calc(var(--letter-size) / 1.75);
-        --letter-gap: calc(var(--letter-size) / 8);
+        --char-size: calc(var(--result-board-width) / 5.5);
+        --char-font: calc(var(--char-size) / 1.75);
+        --char-gap: calc(var(--char-size) / 8);
       }
 
       * {

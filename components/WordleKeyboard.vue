@@ -61,14 +61,14 @@ export default class WordleKeyboard extends Vue {
   padding: 8px;
   width: 100%;
   &__keys {
-    height: var(--kbd-height);
+    height: var(--keyboard-height);
     display: grid;
     gap: 0.8em;
     grid-template-columns: repeat(32, 1fr);
   }
 
   &__enter-key {
-    font-size: min(3.6em, calc(var(--kbd-height) / 7));
+    font-size: min(3.6em, calc(var(--keyboard-height) / 7));
     grid-column: 25 / span 8 !important;
   }
 
