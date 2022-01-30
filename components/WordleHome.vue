@@ -34,7 +34,7 @@ export default class WordleHome extends Vue {
   private addToWord(letter: string): void {
     if (this.word.length === 5) return
     this.word.splice(this.editorIndex, 1, letter)
-    if (this.editorIndex < 4) this.editorIndex++
+    if (this.editorIndex < 4) this.editorIndex = this.word.length
   }
 
   private removeFromWord(): void {
@@ -91,6 +91,7 @@ export default class WordleHome extends Vue {
     <WordleCore
       ref="core"
       :word="word"
+      :editor-index="editorIndex"
       @go-to-index="editorIndex = $event"
       @clear-current-try="word = []"
       @correct="addToListOfLetters($event, 'correctLetters')"

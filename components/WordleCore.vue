@@ -11,6 +11,7 @@ interface Try {
 @Component
 export default class WordleCore extends Vue {
   @Prop({ default: () => [], type: Array }) readonly word!: Array<string>
+  @Prop({ default: () => 0, type: Number }) readonly editorIndex!: number
 
   private remainingChances: number = 5
   private tries: Array<Try> = []
@@ -140,7 +141,10 @@ export default class WordleCore extends Vue {
           v-for="tryPosition in 5"
           :key="`current-try-${tryPosition}`"
           class="result__board-letter"
-          :class="{ 'result__board-letter--empty': !word[tryPosition - 1] }"
+          :class="{
+            'result__board-letter--empty': !word[tryPosition - 1],
+            'result__board-letter--selected': editorIndex === tryPosition - 1,
+          }"
           @click="goToIndex(tryPosition - 1)"
         >
           {{ word[tryPosition - 1] }}
@@ -206,6 +210,10 @@ export default class WordleCore extends Vue {
 
     &--wrong {
       background-color: #333;
+    }
+
+    &--selected {
+      border-bottom: 0.325em solid #4c4347;
     }
   }
 }
