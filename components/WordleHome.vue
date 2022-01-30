@@ -1,14 +1,20 @@
 <script lang="ts">
+import { mapActions } from 'vuex'
 import { Component, Vue } from 'vue-property-decorator'
 import WordleKeyboard from './WordleKeyboard.vue'
 import WordleCore from './WordleCore.vue'
 import WordleHeader from './WordleHeader.vue'
+import ErrorMessage from './ErrorMessage.vue'
 
 @Component({
   components: {
     WordleKeyboard,
     WordleCore,
     WordleHeader,
+    ErrorMessage,
+  },
+  methods: {
+    ...mapActions(['addNewError']),
   },
 })
 export default class WordleHome extends Vue {
@@ -88,6 +94,7 @@ export default class WordleHome extends Vue {
 <template>
   <main class="wordle-home">
     <WordleHeader />
+    <ErrorMessage />
     <WordleCore
       ref="core"
       :word="word"
@@ -98,6 +105,8 @@ export default class WordleHome extends Vue {
       @wrong-position="addToListOfLetters($event, 'wrongPositionLetters')"
       @wrong="addToListOfLetters($event, 'wrongLetters')"
       @end-game="finishGame"
+      @no-valid-word="addNewError('A palavra não é válida.')"
+      @not-enough-chars="addNewError('Digite 5 letras.')"
     />
     <WordleKeyboard
       :correct-letters="correctLetters"

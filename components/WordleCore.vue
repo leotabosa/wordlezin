@@ -40,6 +40,12 @@ export default class WordleCore extends Vue {
   @Emit()
   public endGame(_tries: Array<Try> = this.tries) {}
 
+  @Emit()
+  public noValidWord() {}
+
+  @Emit()
+  public notEnoughChars() {}
+
   private getTodaySolution(): void {
     const solution = getWordOfTheDay()
     this.solution = solution
@@ -66,8 +72,14 @@ export default class WordleCore extends Vue {
   }
 
   public checkResult(): void {
-    if (this.word.length !== 5) return
-    if (!isValidWord(this.word.join(''))) return
+    if (this.word.length !== 5) {
+      this.notEnoughChars()
+      return
+    }
+    if (!isValidWord(this.word.join(''))) {
+      this.noValidWord()
+      return
+    }
 
     const normalizedSolution = this.solution
       .normalize('NFD')

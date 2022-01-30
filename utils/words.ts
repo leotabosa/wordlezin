@@ -177,6 +177,7 @@ const answers: Array<string> = [
   'vendo',
   'sério',
   'meiga',
+  'meião',
   'homem',
   'platô',
   'guisa',
@@ -1032,8 +1033,12 @@ const answers: Array<string> = [
   'aéreo',
   'pavio',
   'ceifa',
+  'moeda',
+  'régua',
 ]
 const validWords: Array<string> = [
+  'meiao',
+  'regua',
   'amago',
   'exito',
   'etica',
