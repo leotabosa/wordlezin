@@ -1,6 +1,5 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-// import words from '../static/words'
 import WordleKeyboard from './WordleKeyboard.vue'
 import WordleCore from './WordleCore.vue'
 import WordleHeader from './WordleHeader.vue'

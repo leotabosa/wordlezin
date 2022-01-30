@@ -1,6 +1,6 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
-import Letters from '../static/letters'
+import Letters from '../utils/letters'
 import KeyboardKey from './KeyboardKey.vue'
 
 @Component({

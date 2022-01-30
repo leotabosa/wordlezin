@@ -1,5 +1,6 @@
 <script lang="ts">
 import { Component, Vue, Prop, Emit } from 'vue-property-decorator'
+import { getWordOfTheDay } from '../utils/words'
 
 interface Try {
   word: Array<string>
@@ -39,7 +40,7 @@ export default class WordleCore extends Vue {
   public endGame(_tries: Array<Try> = this.tries) {}
 
   private getTodaySolution(): void {
-    const solution = 'teste'
+    const solution = getWordOfTheDay()
     this.solution = solution
   }
 
