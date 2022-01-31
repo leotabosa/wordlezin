@@ -114,7 +114,7 @@ export default class WordleHome extends Vue {
     const icons: any = {
       correct: '🟩',
       'wrong-position': '🟨',
-      wrong: '⬜',
+      wrong: '⬛',
     }
 
     let shareMessage = `Wordlezin #${getDay() + 1}\n`
@@ -130,6 +130,7 @@ export default class WordleHome extends Vue {
 
     shareMessage += '\nwordlezin.vercel.app'
 
+    console.log(shareMessage)
     return shareMessage
   }
 
