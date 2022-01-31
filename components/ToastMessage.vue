@@ -1,15 +1,16 @@
 <script>
+import { Component, Vue } from 'vue-property-decorator'
 import { mapGetters, mapActions } from 'vuex'
 
-export default {
-  name: 'ToastMessage',
+@Component({
   computed: {
     ...mapGetters(['toast']),
   },
   methods: {
     ...mapActions(['removeToast']),
   },
-}
+})
+export default class ToastMessage extends Vue {}
 </script>
 
 <template>
