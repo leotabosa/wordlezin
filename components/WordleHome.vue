@@ -98,6 +98,7 @@ export default class WordleHome extends Vue {
 
     this.addNewToast({ type: 'success', message: messages[tries.length - 1] })
     this.showResult = true
+    if (navigator && navigator.share) navigator.share({ text: 'testing' })
   }
 }
 </script>
