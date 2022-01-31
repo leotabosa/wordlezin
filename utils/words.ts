@@ -1,5 +1,17 @@
 const defaultMessage = ' Using word of the day instead.'
 
+export function getDay(): number {
+  const now = new Date()
+  const start = new Date(2022, 0, 30)
+  const diff = Number(now) - Number(start)
+  let day = Math.floor(diff / (1000 * 60 * 60 * 24))
+  while (day > answers.length) {
+    day -= answers.length
+  }
+
+  return day
+}
+
 // copied from https://github.com/yyx990803/vue-wordle/blob/main/src/words.ts
 export function getWordOfTheDay(): string {
   if (location.search) {
@@ -15,13 +27,7 @@ export function getWordOfTheDay(): string {
     }
   }
 
-  const now = new Date()
-  const start = new Date(2022, 0, 30)
-  const diff = Number(now) - Number(start)
-  let day = Math.floor(diff / (1000 * 60 * 60 * 24))
-  while (day > answers.length) {
-    day -= answers.length
-  }
+  const day = getDay()
 
   return answers[day]
 }

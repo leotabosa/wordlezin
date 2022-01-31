@@ -1,6 +1,7 @@
 <script lang="ts">
 import { mapActions } from 'vuex'
 import { Component, Vue } from 'vue-property-decorator'
+import { getDay } from '../utils/words'
 import WordleKeyboard from './WordleKeyboard.vue'
 import WordleCore from './WordleCore.vue'
 import WordleHeader from './WordleHeader.vue'
@@ -96,9 +97,33 @@ export default class WordleHome extends Vue {
       'Ufa!',
     ]
 
+    const shareMessage: string = this.getShareMessage(tries)
+
     this.addNewToast({ type: 'success', message: messages[tries.length - 1] })
     this.showResult = true
-    if (navigator && navigator.share) navigator.share({ text: 'testing' })
+    if (navigator && navigator.share) navigator.share({ text: shareMessage })
+  }
+
+  private getShareMessage(tries: any) {
+    const icons: any = {
+      correct: '🟩',
+      'wrong-position': '🟨',
+      wrong: '⬜',
+    }
+
+    let shareMessage = `Wordlezin #${getDay() + 1}\n\n`
+
+    tries.forEach((t: any) => {
+      let line = ''
+      t.result.forEach((res: string) => (line += icons[res]))
+
+      line += '\n'
+      shareMessage += line
+    })
+
+    shareMessage += '\nwordlezin.vercel.app'
+
+    return shareMessage
   }
 }
 </script>
