@@ -2,8 +2,61 @@
 <html {{ HTML_ATTRS }}>
   <head {{ HEAD_ATTRS }}>
     {{ HEAD }}
+    <style>
+      :root {
+        --max-size: 720px;
+        --keyboard-height: min(100em/2.15, 25vh);
+        --result-board-width: min(
+          80em,
+          (100vh - var(--keyboard-height) - 12vh - 10vh) * 5 / 6
+        );
+        --char-size: calc(var(--result-board-width) / 5.5);
+        --char-font: calc(var(--char-size) / 1.75);
+        --char-gap: calc(var(--char-size) / 8);
+      }
+
+      * {
+        box-sizing: border-box;
+        outline: none;
+        touch-action: manipulation;
+        font-family: inherit;
+        user-select: none;
+      }
+
+      body {
+        max-width: var(--max-size);
+        margin: 0 auto;
+        width: 100%;
+        height: 100%;
+      }
+
+      body > div {
+        height: 100%;
+      }
+
+      body > div > div {
+        height: 100%;
+      }
+
+      html {
+        font-size: min(var(--max-size) / 100, 100vw/100);
+        font-family: 'Roboto Mono', monospace;
+        background-color: #342e37;
+        height: 100%;
+      }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
   </head>
-  <body {{ BODY_ATTRS }} style="margin: 0">
+  <body {{ BODY_ATTRS }}>
     {{ APP }}
   </body>
 </html>
