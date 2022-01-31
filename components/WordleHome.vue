@@ -25,7 +25,8 @@ export default class WordleHome extends Vue {
   private correctLetters: Array<string> = []
   private wrongPositionLetters: Array<string> = []
   private wrongLetters: Array<string> = []
-  private showResult: boolean = false
+  private showShareButton: boolean = false
+  private tries: Array<any> = []
 
   $refs!: {
     core: WordleCore
@@ -87,7 +88,7 @@ export default class WordleHome extends Vue {
     if (!listRef.includes(letter)) listRef.push(letter)
   }
 
-  private finishGame(tries: any) {
+  private finishGame(tries: Array<any>) {
     const messages: Array<string> = [
       'Excelente!',
       'Ótimo!',
@@ -97,21 +98,27 @@ export default class WordleHome extends Vue {
       'Ufa!',
     ]
 
-    const shareMessage: string = this.getShareMessage(tries)
+    this.tries = tries
 
     this.addNewToast({ type: 'success', message: messages[tries.length - 1] })
-    this.showResult = true
-    if (navigator && navigator.share) navigator.share({ text: shareMessage })
+    this.showShareButton = true
   }
 
-  private getShareMessage(tries: any) {
+  private share() {
+    const shareMessage: string = this.getShareMessage(this.tries)
+    if (navigator && navigator.share) navigator.share({ text: shareMessage })
+    else this.copyMessageToClipboard(shareMessage)
+  }
+
+  private getShareMessage(tries: Array<any>) {
     const icons: any = {
       correct: '🟩',
       'wrong-position': '🟨',
       wrong: '⬜',
     }
 
-    let shareMessage = `Wordlezin #${getDay() + 1}\n\n`
+    let shareMessage = `Wordlezin #${getDay() + 1}\n`
+    shareMessage += `${tries.length}/6\n\n`
 
     tries.forEach((t: any) => {
       let line = ''
@@ -124,6 +131,23 @@ export default class WordleHome extends Vue {
     shareMessage += '\nwordlezin.vercel.app'
 
     return shareMessage
+  }
+
+  private copyMessageToClipboard(message: string) {
+    navigator.clipboard
+      .writeText(message)
+      .then(() => {
+        this.addNewToast({
+          type: 'success',
+          message: 'Texto copiado para o seu Ctrl + V!',
+        })
+      })
+      .catch(() => {
+        this.addNewToast({
+          type: 'error',
+          message: 'Erro ao copiar o texto para o Ctrl + V!',
+        })
+      })
   }
 }
 </script>
@@ -149,6 +173,14 @@ export default class WordleHome extends Vue {
         addNewToast({ type: 'error', message: 'Digite 5 letras.' })
       "
     />
+    <button
+      v-if="showShareButton"
+      class="wordle-home__share-button"
+      @click="share"
+    >
+      <i class="fa fa-share-alt" />
+      Compartilhar
+    </button>
     <WordleKeyboard
       :correct-letters="correctLetters"
       :wrong-position-letters="wrongPositionLetters"
@@ -160,11 +192,7 @@ export default class WordleHome extends Vue {
   </main>
 </template>
 
-<style scoped>
-body {
-  margin: 0;
-}
-
+<style scoped lang="scss">
 .wordle-home {
   display: flex;
   flex-direction: column;
@@ -172,5 +200,16 @@ body {
   width: 100%;
   height: 100%;
   background-color: #342e37;
+
+  &__share-button {
+    font-size: 3vh;
+    color: #6e5c62;
+    margin-bottom: 0.5em;
+  }
+
+  .fa {
+    font-size: 3vh;
+    color: #6e5c62;
+  }
 }
 </style>

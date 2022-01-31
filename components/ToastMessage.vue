@@ -58,6 +58,7 @@ export default class ToastMessage extends Vue {}
 
   &__text {
     width: calc(100% - 24px);
+    max-width: 60vw;
     padding-right: 1em;
   }
 
