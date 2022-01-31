@@ -1,7 +1,7 @@
 {
   "name": "wordlezin",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
   "scripts": {
     "dev": "nuxt --optimize_for_size",
     "build": "nuxt build",
