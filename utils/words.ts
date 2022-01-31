@@ -38,6 +38,9 @@ export function isValidWord(word: string): boolean {
 }
 
 const answers: Array<string> = [
+  'salão',
+  'aulas',
+  'aulão',
   'sagaz',
   'negro',
   'âmago',
@@ -89,6 +92,7 @@ const answers: Array<string> = [
   'haver',
   'hábil',
   'casal',
+  'salao',
   'amigo',
   'posse',
   'pesar',
@@ -930,6 +934,7 @@ const answers: Array<string> = [
   'ardis',
   'sigla',
   'calça',
+  'calço',
   'seiva',
   'tenha',
   'sabor',
@@ -1043,6 +1048,7 @@ const answers: Array<string> = [
   'régua',
 ]
 const validWords: Array<string> = [
+  'aulao',
   'meiao',
   'regua',
   'amago',
