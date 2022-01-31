@@ -130,7 +130,6 @@ export default class WordleHome extends Vue {
 
     shareMessage += '\nwordlezin.vercel.app'
 
-    console.log(shareMessage)
     return shareMessage
   }
 
