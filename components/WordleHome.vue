@@ -53,7 +53,7 @@ export default class WordleHome extends Vue {
         : this.editorIndex
 
     if (~index) this.word.splice(index, 1)
-    if (this.editorIndex > 0) this.editorIndex--
+    if (this.editorIndex > 0) this.editorIndex = index
   }
 
   private registerEventListeners(): void {
