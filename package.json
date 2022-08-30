@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.18.9",
-    "@commitlint/cli": "^17.0.3",
+    "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.0.3",
     "@nuxt/types": "^2.15.8",
     "@nuxt/typescript-build": "^2.1.0",
