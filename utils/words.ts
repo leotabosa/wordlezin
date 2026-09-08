@@ -2,7 +2,7 @@ const defaultMessage = ' Using word of the day instead.'
 
 export function getDay(): number {
   const now = new Date()
-  const start = new Date(2022, 0, 30)
+  const start = new Date(2026, 0, 30)
   const diff = Number(now) - Number(start)
   let day = Math.floor(diff / (1000 * 60 * 60 * 24))
   while (day > answers.length) {

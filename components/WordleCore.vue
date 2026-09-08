@@ -12,11 +12,14 @@ interface Try {
 export default class WordleCore extends Vue {
   @Prop({ default: () => [], type: Array }) readonly word!: Array<string>
   @Prop({ default: () => 0, type: Number }) readonly editorIndex!: number
+  @Prop({ default: false, type: Boolean }) readonly hardMode!: boolean
 
   private remainingChances: number = 5
   private tries: Array<Try> = []
   private solution: string = ''
   private isCorrect: boolean = false
+  public revealedLetters: Map<string, Set<number>> = new Map()
+  public revealedYellowLetters: Set<string> = new Set()
 
   mounted() {
     this.getTodaySolution()
@@ -45,6 +48,38 @@ export default class WordleCore extends Vue {
 
   @Emit()
   public notEnoughChars() {}
+
+  @Emit()
+  public tileAnimationComplete() {}
+
+  @Emit()
+  public hardModeViolation(_message: string) {}
+
+  private validateHardMode(): string | null {
+    if (!this.hardMode || this.tries.length === 0) return null
+
+    for (const [letter, positions] of this.revealedLetters.entries()) {
+      for (const pos of positions) {
+        if (this.word[pos] !== letter) {
+          return `A letra ${letter} deve estar na posição ${pos + 1}`
+        }
+      }
+    }
+
+    const wordLetterCounts = new Map<string, number>()
+    this.word.forEach((letter) => {
+      wordLetterCounts.set(letter, (wordLetterCounts.get(letter) || 0) + 1)
+    })
+
+    for (const letter of this.revealedYellowLetters) {
+      const count = wordLetterCounts.get(letter) || 0
+      if (count === 0) {
+        return `Deve conter a letra ${letter}`
+      }
+    }
+
+    return null
+  }
 
   private getTodaySolution(): void {
     const solution = getWordOfTheDay()
@@ -81,6 +116,12 @@ export default class WordleCore extends Vue {
       return
     }
 
+    const hardModeError = this.validateHardMode()
+    if (hardModeError) {
+      this.hardModeViolation(hardModeError)
+      return
+    }
+
     const normalizedSolution = this.solution
       .normalize('NFD')
       .replace(/\p{Diacritic}/gu, '')
@@ -94,25 +135,36 @@ export default class WordleCore extends Vue {
       hitsByLetter: {},
     }
 
-    const { occurrenceByLetterOnSolution, hitsByLetterOnTry }: any =
-      this.getOccurrencesForEachLetter(splitSolution)
+    const remainingFrequency: any = {}
+    splitSolution.forEach((letter) => {
+      remainingFrequency[letter] = (remainingFrequency[letter] || 0) + 1
+    })
 
     this.word.forEach((letter, index) => {
       if (letter === splitSolution[index]) {
-        if (!currentTry.hitsByLetter[letter])
-          currentTry.hitsByLetter[letter] = 1
-        else currentTry.hitsByLetter[letter]++
+        currentTry.result[index] = 'correct'
+        remainingFrequency[letter]--
+      }
+    })
 
-        currentTry.result.push('correct')
+    this.word.forEach((letter, index) => {
+      if (currentTry.result[index] === 'correct') {
         this.correct(letter)
-      } else if (
-        splitSolution.includes(letter) &&
-        hitsByLetterOnTry[letter] <= occurrenceByLetterOnSolution[letter]
-      ) {
-        currentTry.result.push('wrong-position')
+        if (this.hardMode) {
+          if (!this.revealedLetters.has(letter)) {
+            this.revealedLetters.set(letter, new Set())
+          }
+          this.revealedLetters.get(letter)!.add(index)
+        }
+      } else if (remainingFrequency[letter] && remainingFrequency[letter] > 0) {
+        currentTry.result[index] = 'wrong-position'
+        remainingFrequency[letter]--
         this.wrongPosition(letter)
+        if (this.hardMode) {
+          this.revealedYellowLetters.add(letter)
+        }
       } else {
-        currentTry.result.push('wrong')
+        currentTry.result[index] = 'wrong'
         this.wrong(letter)
       }
     })
@@ -121,8 +173,16 @@ export default class WordleCore extends Vue {
     this.tries.push(currentTry)
     this.clearCurrentTry()
 
+    setTimeout(() => {
+      this.tileAnimationComplete()
+    }, 1500)
+
     if (!this.isCorrect) this.remainingChances--
-    else this.endGame(this.tries)
+    else {
+      setTimeout(() => {
+        this.endGame(this.tries)
+      }, 1500)
+    }
   }
 }
 </script>
@@ -134,7 +194,8 @@ export default class WordleCore extends Vue {
         <div
           v-for="(letter, letterIndex) in wordTried.word"
           :key="`try-${letter}-${tIndex}-${letterIndex}`"
-          class="result__board-letter"
+          class="result__board-letter result__board-letter--flip"
+          :style="{ animationDelay: `${letterIndex * 250}ms` }"
           :class="{
             'result__board-letter--correct':
               wordTried.result[letterIndex] === 'correct',
@@ -227,6 +288,23 @@ export default class WordleCore extends Vue {
     &--selected {
       border-bottom: 0.325em solid #4c4347;
     }
+
+    &--flip {
+      animation: flip 500ms ease-in-out;
+      animation-fill-mode: backwards;
+    }
+  }
+}
+
+@keyframes flip {
+  0% {
+    transform: rotateX(0);
+  }
+  50% {
+    transform: rotateX(90deg);
+  }
+  100% {
+    transform: rotateX(0);
   }
 }
 </style>

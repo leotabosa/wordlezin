@@ -13,7 +13,7 @@ export const actions = {
 
     setTimeout(() => {
       commit('REMOVE_TOAST')
-    }, 50000000)
+    }, 5000)
   },
   removeToast({ commit }) {
     commit('REMOVE_TOAST')
